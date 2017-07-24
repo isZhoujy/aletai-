@@ -1,0 +1,146 @@
+<style>
+    input[type="radio"] {
+        margin: 3px 3px 0px 5px;
+        display: none;
+    }
+    
+    label {
+        padding-left: 20px;
+        cursor: pointer;
+        background: url(img/radio_false.png) no-repeat left top;
+    }
+    
+    input:checked + label {
+        background: url(img/radio_true.png) no-repeat;
+    }
+    
+    .wx_i_nbsp {
+        width: 28px;
+        display: inline-block;
+    }
+    
+    .wx_input_width input {
+        width: 200px;
+    }
+    
+    .zy_basicMsg>input,
+    .zy_basicMsg select {
+        width: 150px;
+    }
+    
+    .uplabel {
+        transition: .5s
+    }
+    
+    .uplabel:hover {
+        border: 1px solid #333;
+        background: linear-gradient(#f0f0f0, #f8f8f8);
+    }
+</style>
+<div class="zy_main">
+    <div class="zy_cont">
+        <p class="zy_centerTit"> <span ng-click="tab(0)" ng-class="{'zy_active':switch == 0}">个人信息</span> <i ng-hide="reg"></i> <span ng-click="tab(1)" ng-class="{'zy_active':switch == 1}" ng-hide="reg">修改密码</span> <i ng-hide="reg"></i> <span ng-click="tab(2)" ng-class="{'zy_active':switch == 2}" ng-hide="reg">修改头像</span> </p>
+        <div class="zy_switchCon">
+            <div ng-show="switch == 0">
+                <!--姓名/身份证号/性别/民族/手机/邮箱-->
+                <ul class="zy_basicMsg wx_span_style">
+                    <li> <b class="zy_mustStar">*</b><em>真实姓名：</em>
+                        <input type="text" ng-model="user.realname" ng-show="reg"> <i ng-bind="user.realname" ng-hide="reg"></i> </li>
+                    <li> <b class="zy_mustStar">*</b><em>学&nbsp;&nbsp;籍&nbsp;号：</em>
+                        <input type="text" ng-model="user.stuNo" ng-show="reg"> <i ng-bind="user.stuNo" ng-hide="reg"></i> </li>
+                    <li> <b class="zy_mustStar">*</b><em>性<i class="wx_i_nbsp"></i>别：</em>
+                        <input type="radio" name="ifTeach" id="zy_teacheingY" value="男" ng-model="user.sex" class="wx_radio" />
+                        <label for="zy_teacheingY">男</label>
+                        <input type="radio" name="ifTeach" id="zy_teacheingN" value="女" ng-model="user.sex" class="wx_radio" />
+                        <label for="zy_teacheingN">女</label>
+                    </li>
+                    <li> <b class="zy_mustStar">*</b><em>民<i class="wx_i_nbsp"></i>族：</em>
+                        <select name="" ng-model="user.userNation" ng-options="nation.id as nation.name for nation in nationData" style="cursor:pointer;color: #333;">
+                            <option value="">选择民族</option>
+                        </select>
+                    </li>
+                    <li> <b class="zy_mustStar">*</b><em>生<i class="wx_i_nbsp"></i>日：</em>
+                        <select ng-model="selected" ng-options="s.name for s in list" ng-change="selectedChange()" style="width:150px;margin-right:22px">
+                            <option value="">--请选择--</option>
+                        </select>
+                        <select ng-model="selected2" ng-options="sh.name for sh in selected.month" style="width:150px;margin-right:20px">
+                            <option value="">--请选择--</option>
+                        </select>
+                        <select ng-model="selected3" ng-options="x.name for x in selected2.fullDate" style="width:150px">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </li>
+                    <li> <b class="zy_mustStar">*</b><em>学校名称：</em>
+                        <select name="" ng-model="user.id" ng-options="area.id as area.name for area in areaa" ng-change="selSchoolArea((areaa|filter: {id: user.id})[0])" ng-show="reg">
+                            <option value="">请选择区域</option>
+                        </select>
+                        <select name="" style="margin:0 20px" ng-model="user.stuLevel" ng-options="schoolInfo.id as schoolInfo.name for schoolInfo in schoolInfo" ng-change="selSchoolLevel((schoolInfo|filter: {id: user.stuLevel})[0])" ng-show="reg">
+                            <option value="">请选择学校类型</option>
+                        </select>
+                        <select name="" ng-model="user.schid" ng-options="school.id as school.name for school in schools" ng-change="selGrade((schools|filter: {id: user.schid})[0])" ng-show="reg">
+                            <option value="">请选择学校</option>
+                        </select> <span ng-bind="user.schoolName"></span> </li>
+                    <li> <b class="zy_mustStar">*</b><em>所在年级：</em>
+                        <select name="" id="" ng-model="user.njname" ng-options="nianji.id as nianji.name for nianji in nianjiData" ng-change="selClass((nianjiData|filter:{id:user.njname})[0])" style="width:150px" ng-show="reg">
+                            <option value="">请选择年级</option>
+                        </select> <span ng-bind="user.gradeName"></span> </li>
+                    <li> <b class="zy_mustStar">*</b><em>所在班级：</em>
+                        <select name="" id="" ng-model="user.bjname" ng-options="banji.id as banji.name for banji in banjiData" style="width:150px" ng-show="reg">
+                            <option value="">请选择班级</option>
+                        </select> <span ng-bind="user.className"></span> </li>
+                </ul>
+                <div class="zy_btn_grop">
+                    <input class="zy_submit zy_personalMsgSub" ng-click="submitStudentMsg(user)" type="submit" name="" id="" value="提交" ng-hide="reg" />
+                    <input class="zy_submit zy_personalMsgSub" ng-click="submitzhuceStudentMsg(user)" type="submit" name="" id="" value="提交" ng-show="reg" /> </div>
+            </div>
+            <!--	修改密码		-->
+            <div ng-show="switch == 1">
+                <form name="myForm" novalidate>
+                    <ul class="zy_basicMsg zy_pass">
+                        <li> <em>原&nbsp;&nbsp;密&nbsp;&nbsp;码：</em>
+                            <input ng-model="user.orgPassword" type="text" required placeholder="登录教育云平台时需要输入的密码" ng-pattern="/^[a-zA-Z0-9]{6}$/" disabled style="width:220px;border:none;background:#fff;"> </li>
+                        <li> <em>新&nbsp;&nbsp;密&nbsp;&nbsp;码：</em>
+                            <input ng-model="user.newpassword" type="password" placeholder="请输入6位字母或数字" required ng-pattern="/^[a-zA-Z0-9]{6}$/"><span ng-show="same == 3">请输入6位字母或数字！</span> </li>
+                        <li> <em>确认密码：</em>
+                            <input ng-model="user.renewpassword" type="password" name="" id="" value="" placeholder="请输入6位字母或数字" required ng-pattern="/^[a-zA-Z0-9]{6}$/" /><span ng-show="same == 1">请输入相同的密码！</span> </li>
+                    </ul>
+                    <div class="zy_btn_grop">
+                        <input class="wx_zinv_tj" type="submit" name="" id="" value="提交" ng-click="updateStudentMsg(user)" /> </div>
+                </form>
+            </div>
+            <!--    修改头像     -->
+            <div ng-show="switch == 2">
+                <form name="myForm" novalidate>
+                    <div class="touxup">
+                        <input type="file" id="fileInput">
+                        <label class="uplabel" for="fileInput">选择图片</label> <span>（仅支持JPG,PNG格式的图片）</span> </div>
+                    <div class="previmg">
+                        <div class="cropArea">
+                            <img-crop image="myImage" result-image="myCroppedImage" result-image-size="100" area-type="square" area-min-size="55"></img-crop>
+                        </div>
+                        <div class="youceprev"> <b style="margin-top:20px;display:inline-block">头像预览</b>
+                            <div class="rightimgda"><img style="height:100px" ng-src="{{myCroppedImage}}" /></div>
+                            <p>大头像100*100</p>
+                            <div class="rightimgxiao"><img style="height:55px" ng-src="{{myCroppedImage}}" /></div>
+                            <p>小头像55*55</p>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <input class="wx_zinv_tj" type="submit" name="" id="" value="保存头像" ng-click="upload(user)" /> </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--警告弹框-->
+<div class="gy_del_down zy_warningBox tijiaocgtc" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <p> <img src="img/chenggong.png" alt="" style="height:46px" class="chenggongimg" /> <i></i> </p>
+    </div>
+</div>
+<div class="gy_del_down zy_warningBox tijiaosbtc" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <p> <img src="img/wonde_big.png" alt="" style="height:30px" /> <i></i> </p>
+    </div>
+</div>

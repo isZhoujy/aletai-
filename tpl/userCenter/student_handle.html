@@ -1,0 +1,219 @@
+<div class="zy_main">
+	<div class="zy_cont">
+		<div class="zy_centerTit">
+			<span class="zy_active">学生管理</span>
+            <div class="zjy_handle_tab">
+                <strong ng-class="{'active':state.headTab==0}" ng-click="changeTab(0)">在线学生</strong>
+                <strong ng-class="{'active':state.headTab==2}" ng-click="changeTab(2)">已停用账号</strong>
+                <strong ng-class="{'active':state.headTab==3}" ng-click="changeTab(3)">回收站</strong>
+            </div>
+		</div>
+		<div class="import_down">
+			<span class="import">批量导入学生<input type="file" accept=".xls,.xlsx" onchange="angular.element(this).scope().fileAction(this)"/></span>
+			<a ng-if="state.addClassList.length" ng-href="{{state.modelDown}}/uc/ucUser/downloadModel?fileName=mg_stu.xlsx"><span>下载导入表格</span></a>
+			<a ng-if="!state.addClassList.length" ng-href="{{state.modelDown}}/uc/ucUser/downloadModel?fileName=tea_stu.xlsx"><span>下载导入表格</span></a>
+		</div>
+		<div class="zy_switchCon zjy_teach_handle">
+            <div class="zjy_student_gradelist clearfix">
+                <span class="student_grade">年级 : </span>
+                <ul>
+                    <li ng-if="state.addGradeList.length" ng-class="{'active':state.gradeState==grade.id}" ng-repeat="grade in studentList.gradeList" ng-click="changeGreade(grade.id)">{{grade.name}}</li>
+                    <li ng-if="!state.addGradeList.length" class="active">{{studentList.gradeList[0].gradeName}}</li>
+                </ul>
+            </div>
+            <div class="zjy_student_gradelist clearfix">
+                <span class="student_grade">班级 : </span>
+                <ul>
+                    <li ng-class="{'active':state.classState==classname.id}" ng-repeat="classname in studentList.classList" ng-click="changeClass(classname.id)">{{classname.name}}</li>
+                </ul>
+            </div>
+            <div ng-switch="state.headTab">
+                <div ng-switch-when="0">
+                    <div class="handle_head">
+                        <ul>
+                        	<li ng-click="addOnlineAction('add')">新增</li>
+                        	<li ng-click="studentOnlineAction('checked')">审核</li>
+                            <li ng-click="studentOnlineAction('stop')">停用</li>
+                            <li ng-click="studentOnlineAction('reset')">重置密码</li>
+                            <li ng-click="studentDelet('online')">删除</li>
+                            <li><input type="text" ng-model="onlineResult" data-ng-keypress="onlineKeyup($event,onlineResult)" ng-trim="true" placeholder="请输入姓名或学籍号"/><span class="handle_search" ng-click="studentOnlineSearch(onlineResult)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="addStudentInfo" ng-if="state.AddState">
+                    	<p onselectstart="return false;"><label for="infoName">学生姓名</label><input id="infoName" type="text" placeholder="输入学生姓名" ng-trim="true" ng-model="state.addStudentName"/></p>
+                    	<p onselectstart="return false;"><label for="infoNumber">国网学籍号</label><input id="infoNumber" type="text" ng-trim="true" ng-model="state.addStudentNumber" placeholder="输入国网学籍号" /></p>
+                    	<p onselectstart="return false;" ng-if="state.addGradeList.length">
+                    		<span class="add_span">年级</span>
+                    		<select class="add_select" ng-change="gradeChange(state.teaGradeId)" ng-model="state.teaGradeId" ng-options="item.id as item.name for item in state.addGradeList">
+								<option value="">请选择年级</option>
+							</select>
+                    	</p>
+                    	<p onselectstart="return false;" ng-if="state.addClassList.length">
+                    		<span class="add_span">班级</span>
+                    		<select class="add_select" ng-change="classChange(state.teaClassId)" ng-model="state.teaClassId" ng-options="item.id as item.name for item in state.addClassList">
+								<option value="">请选择班级</option>
+							</select>
+                    	</p>
+                    	<p onselectstart="return false;" class="right" ng-click="sureAddStudent(state.addStudentName,state.addStudentNumber)">✔</p>
+                    	<p onselectstart="return false;" class="right error" ng-click="addOnlineAction('cancel')">✘</p>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="line-height: 1;" width="3%"><input type="checkbox" ng-model="state.studentOnlineChecked" id="allcheck" ng-click="onlineCheckAction($event)"/><br /><label for="allcheck" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th>学生姓名</th>
+                                    <th>国网学籍号</th>
+                                    <th>性别</th>
+                                    <th>学校</th>
+                                    <th>年级</th>
+                                    <th>班级</th>
+                                    <th>班主任</th>
+                                    <th width="6%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="tabledata in studentList.tableMsgList">
+                                    <td><input type="checkbox" ng-checked="isChecked(tabledata.id)" ng-click="changeOnlineCheck($event,tabledata)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.state==0" style="color: red;">(待审核)</span><span ng-if="tabledata.state==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-bind="tabledata.sex"></td>
+                                    <td ng-bind="tabledata.officeName"></td>
+                                    <td ng-bind="tabledata.gradeName"></td>
+                                    <td ng-bind="tabledata.className"></td>
+                                    <td ng-bind="tabledata.teaName"></td>
+                                    <td ng-click="changeSref(tabledata.id)"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.studentOnlineCount"></span>人</span>
+                           <zjy-pagination conf="studentPaginationOnline" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div ng-switch-when="2">
+                    <div class="handle_head">
+                        <ul>
+                            <li ng-click="studentStopRenew('renew')">启用</li>
+                            <li ng-click="studentDelet('stop')">删除</li>
+                            <li><input type="text" name="" ng-model="stopResult" data-ng-keypress="onlineKeyup($event,stopResult)" ng-trim="true" placeholder="请输入姓名或学籍号"/><span class="handle_search" ng-click="studentOnlineSearch(stopResult)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                           <thead>
+                                <tr>
+                                    <th style="line-height: 1;" width="3%"><input type="checkbox" ng-model="state.studentStopChecked" id="studentStopChecked" ng-click="stopCheckAction($event)"/><br /><label for="studentStopChecked" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th>学生姓名</th>
+                                    <th>国网学籍号</th>
+                                    <th>性别</th>
+                                    <th>学校</th>
+                                    <th>年级</th>
+                                    <th>班级</th>
+                                    <th>班主任</th>
+                                    <th width="6%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="tabledata in studentList.tableMsgListStop">
+                                    <td><input type="checkbox" ng-checked="isCheckedStop(tabledata.id)" ng-click="changeStopCheck($event,tabledata.id)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.state==0" style="color: red;">(待审核)</span><span ng-if="tabledata.state==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-bind="tabledata.sex"></td>
+                                    <td ng-bind="tabledata.officeName"></td>
+                                    <td ng-bind="tabledata.gradeName"></td>
+                                    <td ng-bind="tabledata.className"></td>
+                                    <td ng-bind="tabledata.teaName"></td>
+                                    <td ng-click="changeSref(tabledata.id)"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.studentStopCount"></span>人</span>
+                          <zjy-pagination conf="studentPaginationStop" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div ng-switch-when="3">
+                     <div class="handle_head">
+                        <ul>
+                            <li ng-click="studentRecoverRenew('renew')">还原</li>
+                            <li ng-click="studentDelet('recover')">彻底删除</li>
+                            <li><input type="text" name="" ng-model="recoverResult" data-ng-keypress="onlineKeyup($event,recoverResult)" ng-trim="true" placeholder="请输入姓名或学籍号"/><span class="handle_search" ng-click="studentOnlineSearch(recoverResult)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                           <thead>
+                                <tr>
+                                    <th style="line-height: 1;" width="3%"><input type="checkbox" ng-model="state.studentRecoverChecked" id="studentRecChecked" ng-click="recoverCheckAction($event)"/><br /><label for="studentRecChecked" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th>学生姓名</th>
+                                    <th>国网学籍号</th>
+                                    <th>性别</th>
+                                    <th>学校</th>
+                                    <th>年级</th>
+                                    <th>班级</th>
+                                    <th>班主任</th>
+                                    <th width="6%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="tabledata in studentList.tableMsgListRecover">
+                                    <td><input type="checkbox" ng-checked="isCheckedRe(tabledata.id)" ng-click="changeRecoverCheck($event,tabledata.id)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.state==0" style="color: red;">(待审核)</span><span ng-if="tabledata.state==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-bind="tabledata.sex"></td>
+                                    <td ng-bind="tabledata.officeName"></td>
+                                    <td ng-bind="tabledata.gradeName"></td>
+                                    <td ng-bind="tabledata.className"></td>
+                                    <td ng-bind="tabledata.teaName"></td>
+                                    <td ng-click="changeSref(tabledata.id)"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.studentRecoverCount"></span>人</span> 
+                            <zjy-pagination conf="studentPaginationRecover" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox" ng-show="state.warningShow">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p>
+			<img ng-src="{{state.imgNotice}}" alt="" style="vertical-align: middle; height: 32px"/>
+			<i ng-bind="state.noteContent"></i>
+		</p>
+    </div>
+</div>
+
+<!--确认删除弹窗-->
+    <div class="gy_del_down zy_addClassBox" ng-show="state.deletStatus">
+        <div class="gy_hide"></div>
+        <div class="gy_con">
+            <!--弹框具体宽高自定义-->
+            <p class="zy_boxTit"> 删除 <i class="zy_close zy_SubjCloseBtn" ng-click="gbtc()"></i> </p>
+            <div class="zy_alertBoxCon zy_addClassDetail">
+                <div class="zy_selectGroup clearfix">
+                    <p style="font-size: 18px;font-family: '微软雅黑';" ng-bind="state.sureDeletContent"></p>
+                </div>
+                <div class="zy_btnGroup">
+                    <input type="button" class="zy_sure zy_selectSubSure" ng-click="suredel()" value="确认" />
+                    <input type="button" class="zy_cancel zy_selectSubCancel" ng-click="gbtc()" value="取消" /> </div>
+            </div>
+        </div>
+    </div>
+    <img src="img/chenggong.png" alt="" style="display: none"/>
+    <img src="img/wonde_big.png" alt="" style="display: none"/>

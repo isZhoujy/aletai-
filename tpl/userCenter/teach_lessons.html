@@ -1,0 +1,97 @@
+<div class="zy_main">
+	<div class="zy_cont">
+		<p class="zy_centerTit">
+			<span class="zy_active">授课管理</span>
+		</p>
+		<div class="zy_switchCon zjy_teach_lesson">
+            <ul class="zjy_control_class clearfix">
+                <li ng-repeat="list in lessonList" ng-class="{'active':$index==status}" ng-click="changeState($index)" ng-bind="list.name"></li>
+            </ul>
+            <div class="zjy_class_head">
+                <span>年级组长</span> : <span class="zjy_class_leader">谢志雄</span>
+                <p>(提示 : 点击方格进行编辑或修改)</p>
+            </div>
+            <div class="zjy_tableWrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="8%">班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                            <th>班级</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AAA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                        </tr>
+                        <tr>
+                            <td>1班</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                        </tr>
+                        <tr>
+                            <td>1班</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAaaaaaaaaaaaaaaaaaaaaaaA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                        </tr>
+                         <tr>
+                            <td>1班</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                            <td>AAA</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+          
+		</div>
+	</div>
+     <div class="gy_del_down" style="display: none;">
+                <div class="gy_hide"></div>
+                <div class="gy_con zjy_lesson_con"><!--弹框具体宽高自定义-->
+                    <h2>
+                        <span><b>选择教师列表</b>(点击选择，再次点击取消选择)</span>
+                        <i class="zjy_close"></i>
+                    </h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</div>

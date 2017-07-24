@@ -1,0 +1,360 @@
+<!--用户中心个人信息/账号设置页-->
+<div class="zy_main">
+	<div class="zy_cont">
+		<p class="zy_centerTit">
+			<span ng-click="tab(0)" ng-class="{'zy_active':switch == 0}">个人信息</span>
+			<i ng-show="loginState==1"></i>
+			<span ng-show="loginState==1" ng-click="tab(1)" ng-class="{'zy_active':switch == 1}">账号设置</span>
+			<i ng-show="loginState==1"></i>
+			<span ng-show="loginState==1" ng-click="tab(2)" ng-class="{'zy_active':switch == 2}">修改头像</span>
+		</p>
+		<div class="zy_switchCon">
+			<div ng-if="switch == 0">
+				<!--姓名/身份证号/性别/民族/手机/邮箱-->
+				<ul class="zy_basicMsg zy_registerInp">
+					<li>
+						<span>
+							<b class="zy_mustStar" ng-hide="reg.disInp">*</b>
+							<em>真实姓名：</em>
+							<input type="text" ng-model="userInfo.realname" ng-disabled="reg.disInp" />
+							<i></i>
+						</span>
+						<span>
+							<b class="zy_mustStar" ng-hide="reg.disInp">*</b>
+							<em>身份证号：</em>
+							<input type="text" name="" id="" value="" ng-model="userInfo.idCard" ng-disabled="reg.disInp" ng-pattern="/^([1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X))$/" />
+						</span>
+						<span>
+							<em>性别：</em>
+							<i ng-bind="userInfo.sex"></i>
+						</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<em>民&nbsp;&nbsp;&nbsp;&nbsp;族：</em>
+						<select name="" ng-model="userInfo.userNation" ng-options="nation.id as nation.name for nation in nationData" ng-change="changeminzu((nationData|filter: {id: userInfo.userNation})[0])">
+							<option value="">请选择民族</option>
+						</select>
+						<!--<i></i>-->
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<em>手&nbsp;&nbsp;&nbsp;&nbsp;机：</em>
+						<input type="text" name="" id="" value="" ng-model="userInfo.userMobile" ng-focus="phone_wrong = false"
+ required ng-pattern="/^((13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8})$/"/>
+						<b class="zy_tips" ng-show="phone_wrong" ng-bind="mobileTip"></b>
+						<!--<i></i>-->
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<em>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</em>
+						<input type="text" name="" id="" value="" ng-focus="mail_wrong = false" ng-model="userInfo.userEmail" required ng-pattern="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/" />
+						<b class="zy_tips" ng-show="mail_wrong">邮箱格式不正确</b>
+						<strong class="zy_tips">（用于找回密码）</strong>
+					</li>
+				</ul>
+				<!--单位名称-->
+				<div class="zy_screenBox">
+					<b class="zy_mustStar" style="vertical-align: 8px; margin-right: 0;">*</b>
+					<em>单位名称：</em>
+					<div class="zy_option clearfix">
+						<div class="zy_optionCon fl">
+							<select name="" ng-model="userInfo.areaId" ng-options="area.id as area.name for area in areaa" ng-change="selSchoolArea((areaa|filter: {id: userInfo.areaId})[0])">
+								<option value="">请选择区域</option>
+						</select>
+							<!--<select name="">
+							</select>-->
+							<!--<i></i>-->
+						</div>
+						<div class="zy_optionCon fl">
+							<select name="" ng-model="userInfo.officeGrade" ng-options="schoolInfo.id as schoolInfo.name for schoolInfo in schoolInfo" ng-change="selSchoolLevel((schoolInfo|filter: {id: userInfo.officeGrade})[0])">
+								<option value="">请选择学校类型</option>
+						</select>
+							<!--<i></i>-->
+						</div>
+						<div class="zy_optionCon fl">
+							<!--<select name="" ng-model="subj.subjectId" ng-options="subject.id as subject.name for subject in subjects.data" ng-change="selLeaderSub((subjects.data|filter: {subjectId: subjects.data})[0])">-->
+							<select name="" ng-model="userInfo.officeId" ng-options="school.id as school.name for school in schools" ng-change="selGrade((schools|filter: {id: userInfo.officeId})[0])">
+								<option value="">请选择学校</option>
+						</select>
+							<!--<i></i>-->
+						</div>
+					</div>
+				</div>
+				<!--教学角色-->
+				<div class="zy_role">
+					<b class="zy_mustStar" style="vertical-align: 92px; margin-right: 0;">*</b>
+					<em>教学角色：</em>
+					<ul class="zy_checkBox">
+						<li>
+							<!--<roles-list></roles-list>-->
+							<span ng-repeat="role in roles.data.role1">
+								<!--<input ng-model="r" ng-checked="checkStyle(role.roleId)" type="checkbox" id="{{role.roleId}}" ng-click = "checkedAction($event,role)"/>-->
+								<label ng-class="{'zy_active':!role.state}" for="{{role.id}}" ng-bind="role.name" ng-click = "checkedAction1($event,role)"></label>
+							</span>
+						</li>
+						<li>
+							<div>
+								<span>
+									<!--<input name="" ng-checked="bsd" type="checkbox" id="{{roles.data.role2.roleId}}" value="" ng-model="bsd" />-->
+									<label ng-class="{'zy_active':!roles.data.role2.state}" for="{{roles.data.role2.id}}" ng-bind="roles.data.role2.name" ng-click='checkedAction2($event,roles.data.role2)'></label>
+								</span>
+								<div class="zy_optionCon">
+									<select name="" ng-model="Yteach.gradeId" ng-disabled="roles.data.role2.state" ng-class="{'zy_active' : roles.data.role2.state}" ng-options="grade.id as grade.name for grade in grades.data" ng-change="selClass((grades.data|filter: {id: Yteach.gradeId})[0])">
+										<option value="">请选择年级</option>
+									</select>
+									<!--<i></i>-->
+								</div>
+								<div class="zy_optionCon">
+									<select name="" name="" ng-model="Yteach.classId" ng-disabled="roles.data.role2.state" ng-class="{'zy_active' : roles.data.role2.state}" ng-options="clas.id as clas.name|classfilter for clas in classes.data">
+										<option value="">请选择班级</option>
+									</select>
+									<!--<i></i>-->
+								</div>
+								<!--<strong ng-show="showTip">请先选择学校</strong>-->
+							</div>
+							<div>
+								<span>
+									<!--<input name="" type="checkbox" id="{{roles.data.role3.roleId}}" value="" ng-checked="asd" ng-model="asd" />-->
+									<!--<label ng-class="{'zy_active':asd}"  for="{{roles.data.role3.roleId}}" ng-bind="roles.data.role3.roleName" ng-click='checkedActionSub($event,roles.data.role3.roleId,asd)'></label>-->
+									<label ng-class="{'zy_active':!roles.data.role3.state}"  for="{{roles.data.role3.id}}" ng-bind="roles.data.role3.name" ng-click='checkedAction3($event,roles.data.role3)'></label>
+								</span>
+								<div class="zy_optionCon">
+									<select name="" ng-model="groptzy.YgradeGrop" ng-disabled="roles.data.role3.state" ng-class="{'zy_active' : roles.data.role3.state}" ng-options="grade.id as grade.name for grade in grades.data">
+										<option value="">请选择年级</option>
+									</select>
+									<!--<i></i>-->
+								</div>
+							</div>
+							
+							<div>
+								<span>
+									<!--<input ng-checked="ifChecked" name="" type="checkbox" id="roles.data.role4.roleId" value="" ng-model="ifChecked" />-->
+									<!--<label ng-class="{'zy_active':ifChecked}" for="roles.data.role4.roleId" ng-bind="roles.data.role4.roleName" ng-click='checkedActionSub($event,roles.data.role4.roleId,ifChecked)'></label>-->
+									<label ng-class="{'zy_active':!roles.data.role4.state}" for="roles.data.role4.id" ng-bind="roles.data.role4.name" ng-click='checkedAction4($event,roles.data.role4)'></label>
+								</span>
+								<p>
+									<b ng-repeat="x in subjectLeaderInfoNew" ng-bind="x|subjectLeaderInfoFilter">小学一年级语文</b>
+								</p>
+								<button class="zy_choose zy_chooseSub" ng-disabled="roles.data.role4.state" ng-class="{'zy_active':roles.data.role4.state}" ng-click="subselsel()">选择学科</button>
+							</div>
+						</li>
+						<!--<li>
+							<span>
+								<input name="" type="checkbox" id="dd" value="" ng-model="ifChecked" />
+								<label ng-class="{'zy_active':ifChecked}" for="dd">学科组长</label>
+							</span>
+							<strong class="zy_choose zy_chooseSub" ng-click="subBox=!subBox">选择学科</strong>
+						</li>-->
+					</ul>
+				</div>
+				<!--是否授课-->
+				<div class="zy_ifTeaching">
+					<b class="zy_mustStar" style="vertical-align: -2px; margin-right: 0;">*</b>
+					<em>是否授课：</em>
+					<input type="radio" name="ifTeach" id="zy_teacheingY" ng-value=true ng-model="iftzy.ifRadio" />
+					<label for="zy_teacheingY" ng-class="{'zy_active':iftzy.ifRadio}" ng-click="distzy.dis=false">是</label>
+					<input type="radio" name="ifTeach" id="zy_teacheingN" ng-value=false ng-model="iftzy.ifRadio"/>
+					<label for="zy_teacheingN" ng-class="{'zy_active':!iftzy.ifRadio}" ng-click="distzy.dis=true">否</label>
+					<button class="zy_choose zy_addTea" ng-click="ifOpenAddTeach()" ng-disabled="distzy.dis && !iftzy.ifRadio" ng-class="{'zy_active':distzy.dis}">添加授课</button>
+					<i class="zy_tips">（添加授课关系后，开启“课程中心”应用权限）</i>
+				</div>
+				<!--table-->
+				<table class="zy_table" border="" cellspacing="" cellpadding="" ng-show="!distzy.dis">
+					<tr>
+						<th>序号</th>
+						<th>年级</th>
+						<th>班级</th>
+						<th>学科</th>
+						<th>教材版本</th>
+						<th>操作</th>
+					</tr>
+					<tr ng-repeat="teach in userCourse">
+						<td ng-bind="$index+1"></td>
+						<td ng-bind="teach.gradeName"></td>
+						<td ng-bind="teach.className|classfilter"></td>
+						<td ng-bind="teach.subjectName"></td>
+						<td ng-bind="teach.versionName"></td>
+						<td class="zy_tableDelete" ng-click="deleteTeach($index)"><i></i>删除</td>
+					</tr>
+				</table>
+				<div class="zy_btn_grop">
+					<!--<input class="zy_submit" type="button" name="" id=""  value="上一步" ui-sref="register_page({tableChange:1})" ng-show="reg.disInp" />-->
+					<input class="zy_submit" type="button" name="" id=""  value="上一步" ng-click="Yprev()" ng-show="reg.disInp" />
+					<input class="zy_submit zy_personalMsgSub" type="submit" name="" id=""  ng-value="reg.btn" ng-click="submitInfo()" />
+				</div>
+			</div>
+			<!--账号设置-->
+			<div ng-if="switch == 1">
+				<ul class="zy_basicMsg zy_pass">
+<!--
+					<li>
+						<span>
+						    <em>头&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;像：</em>
+						    <span style="margin-right:10px!important">
+						        <a href="javascript:;" class="file"><img class="wx_touxiang" id="preview" ng-src="{{userUpdate.userFace}}" err-src="img/login_img.png" alt="">
+                                    <input type="file" name="" id="file" onchange="angular.element(this).scope().upload()" ng-model="myFile" >
+                                </a>
+						    </span>
+						    <span style="color:#888">（支持JPG,PNG格式的图片）</span>
+						</span>
+					</li>
+-->
+					<!--<li>
+					    <em>身份证号：</em><span ng-bind="userUpdate.idCard"></span>
+					</li>
+					<li>
+						<em>真实姓名：</em><span ng-bind="userUpdate.realname"></span>
+					</li>-->
+					<li>
+					    <em>原&nbsp;&nbsp;密&nbsp;&nbsp;码：</em>
+					    <input ng-model="userUpdate.orgPassword" type="text" placeholder="登录教育云平台时需要输入的密码" ng-pattern="/^[a-zA-Z0-9]{6}$/"  disabled style="width:220px;border:none;background:#fff;">
+					    
+<!--					    <span ng-show="same == 2">请输入6位字母或数字！</span><span ng-show="same == 4">密码错误请重新输入！</span>-->
+					</li>
+					<li>
+						<em>新&nbsp;&nbsp;密&nbsp;&nbsp;码：</em>
+						<input ng-model="userUpdate.password" type="password" placeholder="请输入6位字母或数字" ng-pattern="/^[a-zA-Z0-9]{6}$/"><span ng-show="same == 3">请输入6位字母或数字！</span>
+					</li>
+					<li>
+						<em>确认密码：</em>
+						<input type="password" name="" id="" value="" ng-model="userUpdate.renewpassword" ng-pattern="/^[a-zA-Z0-9]{6}$/"placeholder="请输入6位字母或数字" /><span ng-show="same == 1" >请输入相同的密码！</span>
+					</li>
+				</ul>
+				<input class="wx_zinv_tj" type="submit" name="" id="" value="提交" ng-click="updateStudentMsg()" />
+			</div>
+		
+			<div ng-show="switch == 2">
+			<form name="myForm" novalidate>
+                <div class="touxup">
+                    <input type="file" id="fileInput"><label class="uplabel" for="fileInput">选择图片</label>
+                    <span>（仅支持JPG,PNG格式的图片）</span>
+                </div>
+                <div class="previmg">
+                    <div class="cropArea">
+                        <img-crop image="myImage" result-image="myCroppedImage"  result-image-size="100" area-type="square" area-min-size="55"></img-crop>
+                    </div>
+                    <div class="youceprev">
+                       <b style="margin-top:20px;display:inline-block">头像预览</b>
+                        <div class="rightimgda"><img style="height:100px" ng-src="{{myCroppedImage}}"/></div>
+                        <p>大头像100*100</p>
+                        <div class="rightimgxiao"><img style="height:55px" ng-src="{{myCroppedImage}}"/></div>
+                        <p>小头像55*55</p>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+				<input class="wx_zinv_tj" type="submit" name="" id="" value="保存头像" ng-click="upload(user)" />
+			</form>
+			</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+<!--选择学科弹框-->
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_selectSubBox" ng-show="subBox">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p class="zy_boxTit">
+			选择学科
+			<i class="zy_close zy_SubjCloseBtn" ng-click="subBox=!subBox"></i>
+		</p>
+		<div class="zy_alertBoxCon zy_selectSubDetail">
+			<div class="zy_sub">
+				<em>学科：</em>
+				<div class="zy_optionCon">
+					<!--<select name="" ng-model="leaderInfo.subjectId" ng-options="subject.id as subject.name for subject in subjects.data" ng-change="selLeaderSub((subjects.data|filter: {id: grades.data})[0])">-->
+					<select name="" ng-model="subj.subjectId" ng-options="subject.id as subject.name for subject in subjects.data" ng-change="selLeaderSub((subjects.data|filter: {id: subj.subjectId})[0])">
+						<option value="">选择学科</option>
+					</select>
+					<!--<i class=""></i>-->
+				</div>
+			</div>
+			<div class="zy_grade">
+				<em>年级：</em>
+				<ul class="clearfix" >
+					<li ng-class="{'zy_active':gradeTab==$index}" ng-repeat="grade in grades.data" ng-bind="grade.name" ng-click="changeGrade($index,grade)"></li>
+				</ul>
+			</div>
+			<div class="zy_btnGroup">
+				<input type="button" class="zy_sure zy_selectSubSure" name="" id="" ng-click="tijiaoLeader()" value="确认"/>
+				<input type="button" class="zy_cancel zy_selectSubCancel" name="" id="" value="取消" ng-click="subBox=!subBox" />
+			</div>
+		</div>
+    </div>
+</div>
+
+<!--添加授课弹框-->
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_addClassBox" ng-show="teachtzy.teachBox && !distzy.dis">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p class="zy_boxTit">
+			添加授课
+			<i class="zy_close zy_SubjCloseBtn" ng-click="teachtzy.teachBox=!teachtzy.teachBox"></i>
+		</p>
+		<div class="zy_alertBoxCon zy_addClassDetail">
+			<div class="zy_selectGroup clearfix">
+				<div class="zy_optionCon fl">
+					<select name="" ng-model="userCourseList.gid" ng-options="grade.id as grade.name for grade in grades.data" ng-change="selTeachClass((grades.data|filter: {id: userCourseList.gid})[0])">
+						<option value="">选择年级</option>
+					</select>
+					<!--<i class=""></i>-->
+				</div>
+				<div class="zy_optionCon fl">
+					<select name="" ng-model="userCourseList.cid" ng-options="class.id as class.name|classfilter for class in teachClasses.data" ng-change="selTeachSub((teachClasses.data|filter: {id: userCourseList.cid})[0])">
+						<option value="">选择班级</option>
+					</select>
+					<!--<i class=""></i>-->
+				</div>
+				<div class="zy_optionCon fl">
+					<select name="" ng-model="userCourseList.sid" ng-options="subject.id as subject.name for subject in teachSubject.data" ng-change="selTeachVersion((teachSubject.data|filter: {id: userCourseList.sid})[0])">
+						<option value="">选择学科</option>
+					</select>
+					<!--<i class=""></i>-->
+				</div>
+				<div class="zy_optionCon fl">
+					<select name="" ng-model="userCourseList.vid" ng-options="version.id as version.name for version in teachVersion.data" ng-click="selTeachLast((teachVersion.data|filter: {id: userCourseList.vid})[0])">
+						<option value="">选择教材版本</option>
+					</select>
+					<!--<i class=""></i>-->
+				</div>
+			</div>
+			<div class="zy_btnGroup">
+				<input type="button" class="zy_sure zy_selectSubSure" name="" id="" ng-click="addTeach()" value="确认" />
+				<input type="button" class="zy_cancel zy_selectSubCancel" name="" id="" value="取消" ng-click="teachtzy.teachBox=!teachtzy.teachBox"/>
+			</div>
+		</div>
+    </div>
+</div>
+
+
+<!--警告弹框-->
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox" ng-show="warnshow || dfg">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p>
+			<img src="img/chenggong.png" alt="" style="height: 46px;" ng-show="chenggong"/>
+			<img src="img/wonde_big.png" alt="" ng-show="!chenggong" />
+			<i ng-bind="tishi"></i>
+		</p>
+		
+    </div>
+</div>
+
+
+
+<script>
+   /* $(function(){
+        $("#file").change(function(e){
+            var f=document.getElementById('file').files[0];
+            var src = window.URL.createObjectURL(f);
+            console.log(src)
+            document.getElementById('preview').src = src;
+        });
+    })*/
+</script>

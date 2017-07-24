@@ -1,0 +1,238 @@
+<div class="zy_main">
+	<div class="zy_cont">
+		<div class="zy_centerTit">
+			<span class="zy_active">家长管理</span>
+            <div class="zjy_handle_tab">
+                <strong ng-class="{'active':state.headTab==0}" ng-click="changeTable(0)">已注册家长</strong>
+                <strong ng-class="{'active':state.headTab==1}" ng-click="changeTable(1)">已停用账号</strong>
+                <strong ng-class="{'active':state.headTab==2}" ng-click="changeTable(2)">回收站</strong>
+            </div>
+		</div>
+		<div class="import_down">
+			<span class="import">批量导入家长<input type="file" accept=".xls,.xlsx" onchange="angular.element(this).scope().fileAction(this)"/></span>
+			<a ng-href="{{state.modelDown}}/uc/ucUser/downloadModel?fileName=parents.xlsx"><span>下载导入表格</span></a>
+		</div>
+		<div class="zy_switchCon zjy_teach_handle zjy_parent_hand">
+            <div class="zjy_student_gradelist clearfix">
+                <span class="student_grade">年级 : </span>
+                <ul>
+                    <li ng-if="state.parentgrade" ng-class="{'active':state.gradeState==grade.gradeId}" ng-repeat="grade in parentsList.gradeList" ng-click="changeGreade(grade.gradeId)">{{grade.gradeName}}</li>
+                    <li ng-if="!state.parentgrade" ng-class="{'active':state.gradeState==grade.id}" ng-repeat="grade in parentsList.gradeList" ng-click="changeGreade(grade.id)">{{grade.name}}</li>
+                </ul>
+            </div>
+            <div class="zjy_student_gradelist clearfix">
+                <span class="student_grade">班级 : </span>
+                <ul>
+                    <li ng-class="{'active':state.classState==classname.id}" ng-repeat="classname in parentsList.classList" ng-click="changeClass(classname.id)">{{classname.name}}</li>
+                </ul>
+            </div>
+            <div ng-switch="state.headTab">
+                <div ng-switch-when="0">
+                    <div class="handle_head">
+                        <ul>
+                            <li ng-click="addParentInfo('add')">新增</li>
+                            <li ng-click="parentonlineAction('checked')">审核</li>
+                            <li ng-click="parentonlineAction('stop')">停用</li>
+                            <li ng-click="parentonlineAction('reset')">重置密码</li>
+                            <li ng-click="parentDeleAction('online')">删除</li>
+                            <li><input type="text" name="" ng-model="state.parentOnlineSearch" placeholder="请输入孩子的姓名或学籍号" ng-trim="true" ng-keypress="keyUpSearch($event,state.parentOnlineSearch)"/><span class="handle_search" ng-click="parentSearch(state.parentOnlineSearch)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="addStudentInfo" ng-if="state.AddState">
+                    	<p onselectstart="return false;"><label for="infoName">家长姓名</label><input id="infoName" type="text" placeholder="输入家长姓名" ng-trim="true" ng-model="state.addParetName"/></p>
+                    	<p onselectstart="return false;"><label for="infoNumber">手机号</label><input id="infoNumber" type="text" ng-trim="true" ng-model="state.addParentNumber" placeholder="输入手机号" style="width: 120px;"/></p>
+                    	<p onselectstart="return false;"><label for="infoName">学生姓名</label><input id="infoName" type="text" placeholder="输入学生姓名" ng-trim="true" ng-model="state.addStudentName"/></p>
+                    	<p onselectstart="return false;"><label for="infoNumber">国网学籍号</label><input id="infoNumber" type="text" ng-trim="true" ng-model="state.addStudentNumber" placeholder="输入国网学籍号" style="width: 165px;"/></p>
+                    	<p onselectstart="return false;" class="right" ng-click="sureAddParent()">✔</p>
+                    	<p onselectstart="return false;" class="right error" ng-click="addParentInfo('cancel')">✘</p>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="4%"><input type="checkbox" ng-model="state.allchecked" id="allcheck" ng-click="clickallCheck($event)"/><label for="allcheck" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th width="6%" ng-show="{{false}}">家长ID</th>
+                                    <th width="18%">家长姓名</th>
+                                    <th width="15%">手机</th>
+                                    <th width="14%">学生姓名</th>
+                                    <th width="15%">国网学籍号</th>
+                                    <th width="12%" ng-if="state.amendState==15">学校</th>
+                                    <th width="12%" ng-if="state.amendState==1">子女关系</th>
+                                    <th width="6%" ng-if="state.amendState==15">年级</th>
+                                    <th width="3%" ng-if="state.amendState==15">班级</th>
+                                    <th width="5%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tabledata in parentsList.tableMsgList">
+                                    <td><input type="checkbox" ng-checked="isChecked(tabledata.id)" ng-click="changeCheckbox($event,tabledata)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td ng-bind="tabledata.id" ng-show="{{false}}"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.prarentsState==0" style="color: red;">(待审核)</span><span ng-if="tabledata.prarentsState==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.userMobile"></td>
+                                    <td ng-bind="tabledata.stuName"></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==1">爸爸</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==2">妈妈</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==3">爷爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==4">奶奶</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==5">姥姥</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==6">姥爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==7">亲属</td>
+                                    <td ng-bind="tabledata.officeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.gradeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.className" ng-if="state.amendState==15"></td>
+                                    <td ui-sref="teacher_index.manager_updataParent({parentsCard:tabledata.id})"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.parentsOnlineCount"></span>人</span> 
+                           <zjy-pagination conf="parentPaginationOnline" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div ng-switch-when="1">
+                	<div class="handle_head">
+                        <ul>
+                            <li ng-click="parentStopAction('qiyong')">启用</li>
+                            <li ng-click="parentDeleAction('stop')">删除</li>
+                            <li><input type="text" name="" ng-model="state.parentStopSearch" placeholder="请输入孩子的姓名或学籍号" ng-trim="true" ng-keypress="keyUpSearch(state.parentStopSearch)"/><span class="handle_search" ng-click="parentSearch(state.parentStopSearch)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="4%"><input type="checkbox" ng-model="state.allStopchecked" id="allStopchecked" ng-click="clickStopCheck($event)"/><label for="allStopchecked" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th width="6%" ng-show="{{false}}">家长ID</th>
+                                    <th width="18%">家长姓名</th>
+                                    <th width="15%">手机</th>
+                                    <th width="14%">学生姓名</th>
+                                    <th width="15%">国网学籍号</th>
+                                    <th width="12%" ng-if="state.amendState==15">学校</th>
+                                    <th width="12%" ng-if="state.amendState==1">子女关系</th>
+                                    <th width="6%" ng-if="state.amendState==15">年级</th>
+                                    <th width="3%" ng-if="state.amendState==15">班级</th>
+                                    <th width="5%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tabledata in parentsList.tableMsgStop">
+                                    <td><input type="checkbox" ng-checked="isStopChecked(tabledata.id)" ng-click="changeStopCheckbox($event,tabledata.id)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td ng-bind="tabledata.id" ng-show="{{false}}"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.prarentsState==0" style="color: red;">(待审核)</span><span ng-if="tabledata.prarentsState==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.userMobile"></td>
+                                    <td ng-bind="tabledata.stuName"></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==1">爸爸</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==2">妈妈</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==3">爷爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==4">奶奶</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==5">姥姥</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==6">姥爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==7">亲属</td>
+                                    <td ng-bind="tabledata.officeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.gradeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.className" ng-if="state.amendState==15"></td>
+                                    <td ui-sref="teacher_index.manager_updataParent({parentsCard:tabledata.id})"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.parentsStopCount"></span>人</span> 
+                           <zjy-pagination conf="parentPaginationStop" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div ng-switch-when="2">
+                    <div class="handle_head">
+                        <ul>
+                            <li ng-click="parentRecoverAction('renew')">还原</li>
+                            <li ng-click="parentDeleAction('recover')">彻底删除</li>
+                            <li><input type="text" name="" ng-keypress="keyUpSearch($event,state.parentRecoverSearch)" ng-trim="true" ng-model="state.parentRecoverSearch" placeholder="请输入孩子的姓名或学籍号"/><span class="handle_search" ng-click="parentSearch(state.parentRecoverSearch)"></span></li>
+                        </ul>
+                    </div>
+                    <div class="handle_table">
+                        <table>
+                           <thead>
+                                <tr>
+                                    <th width="4%"><input type="checkbox" ng-model="state.allcheckedRecover" id="allcheckRe" ng-click="clickRecoverCheck($event)"/><label for="allcheckRe" onSelectStart="return false">全选</label></th>
+                                    <th width="4%">序号</th>
+                                    <th width="6%" ng-show="{{false}}">家长ID</th>
+                                    <th width="18%">家长姓名</th>
+                                    <th width="15%">手机</th>
+                                    <th width="14%">学生姓名</th>
+                                    <th width="15%">国网学籍号</th>
+                                    <th width="12%" ng-if="state.amendState==15">学校</th>
+                                    <th width="12%" ng-if="state.amendState==1">子女关系</th>
+                                    <th width="6%" ng-if="state.amendState==15">年级</th>
+                                    <th width="3%" ng-if="state.amendState==15">班级</th>
+                                    <th width="5%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tabledata in parentsList.tableMsgListRecover">
+                                    <td><input type="checkbox" ng-checked="isCheckedRecover(tabledata.id)" ng-click="changeRecoverCheckbox($event,tabledata.id)"/></td>
+                                    <td ng-bind="$index+1"></td>
+                                    <td ng-bind="tabledata.id" ng-show="{{false}}"></td>
+                                    <td>{{tabledata.realname}} <span ng-if="tabledata.prarentsState==0" style="color: red;">(待审核)</span><span ng-if="tabledata.prarentsState==2" style="color: #8D8D8D;">(已停用)</span></td>
+                                    <td ng-bind="tabledata.userMobile"></td>
+                                    <td ng-bind="tabledata.stuName"></td>
+                                    <td ng-bind="tabledata.stuNo"></td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==1">爸爸</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==2">妈妈</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==3">爷爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==4">奶奶</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==5">姥姥</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==6">姥爷</td>
+                                    <td ng-if="state.amendState==1&&tabledata.relationId==7">亲属</td>
+                                    <td ng-bind="tabledata.officeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.gradeName" ng-if="state.amendState==15"></td>
+                                    <td ng-bind="tabledata.className" ng-if="state.amendState==15"></td>
+                                    <td ui-sref="teacher_index.manager_updataParent({parentsCard:tabledata.id})" ng-show="state.amendState==15"><i class="xiugai_icon"></i>修改</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="handle_footer">
+                           <span class="handle_persontit">共<span class="handle_personcount" ng-bind="state.parentsRecoverCount"></span>人</span> 
+                           <zjy-pagination conf="parentPaginationRecover" onSelectStart="return false"></zjy-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox" ng-show="state.warningShow">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p>
+			<img ng-src="{{state.imgNotice}}" alt="" style="vertical-align: middle;height: 32px;"/>
+			<i ng-bind="state.noteContent"></i>
+		</p>
+    </div>
+</div>
+
+<!--确认删除弹窗-->
+    <div class="gy_del_down zy_addClassBox" ng-show="state.deletStatus">
+        <div class="gy_hide"></div>
+        <div class="gy_con">
+            <!--弹框具体宽高自定义-->
+            <p class="zy_boxTit"> 删除 <i class="zy_close zy_SubjCloseBtn" ng-click="gbtc()"></i> </p>
+            <div class="zy_alertBoxCon zy_addClassDetail">
+                <div class="zy_selectGroup clearfix">
+                    <p style="font-size: 18px;font-family: '微软雅黑';" ng-bind="state.sureDeletContent"></p>
+                </div>
+                <div class="zy_btnGroup">
+                    <input type="button" class="zy_sure zy_selectSubSure" ng-click="suredel()" value="确认" />
+                    <input type="button" class="zy_cancel zy_selectSubCancel" ng-click="gbtc()" value="取消" /> </div>
+            </div>
+        </div>
+    </div>
+    <img src="./img/chenggong.png" alt="" style="display: none"/>
+    <img src="img/wonde_big.png" alt="" style="display: none"/>

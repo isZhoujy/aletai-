@@ -1,0 +1,105 @@
+<style>
+    input[type="radio"] {
+        margin: 3px 3px 0px 5px;
+        display: none;
+    }
+    
+    label {
+        padding-left: 20px;
+        cursor: pointer;
+        background: url(img/radio_false.png) no-repeat left top;
+    }
+    
+    input:checked + label {
+        background: url(img/radio_true.png) no-repeat;
+    }
+</style>
+  <div class="zy_main">
+	<div class="zy_cont">
+		<p class="zy_centerTit">
+			<span class="zy_active" style="width:100px!important">修改学生信息</span>
+		</p>
+		<div class="zy_switchCon">
+           <ul class="zy_basicMsg wx_span_style">
+					<li>
+				        <em>学校名称&nbsp;&nbsp;：</em>
+						<span ng-bind="user.data.schoolName"></span>
+					</li>
+					<li>
+					    <b class="zy_mustStar">*</b><em>所在年级：</em>
+					    <select name="" id="" ng-model="user.nianjiData" ng-options="nianji.gradeId as nianji.gradeName for nianji in nianjiData" ng-change="selClass()" style="width:150px">
+					        <option value="">请选择年级</option>
+					    </select>
+					    <!--<i></i>-->
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b><em>所在班级：</em>
+						<select name="" id="" ng-model="user.banjiData"  ng-options="banji.classId as banji.className for banji in banjiData" style="width:150px">
+						    <option value="">请选择班级</option>
+						</select>
+						<!--<i></i>-->
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b><em>真实姓名：</em>
+						<span><input type="text" ng-model="user.data.realname" value="{{user.data.realname}}"></span>
+						<span style="display:none;color:#f00;" class="nameerro">请填写姓名后再提交</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b><em>学&nbsp;&nbsp;籍&nbsp;号：</em>
+						<input type="text" ng-model="user.data.stuNo" style="width:200px;">
+						<span style="display:none;color:#f00;" class="xuejierro">请填写学籍号后再提交</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b><em>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</em>
+						<input type="radio" name="ifTeach" id="zy_teacheingY" value="男" class="wx_radio" ng-model="user.data.sex"/>
+                        <label for="zy_teacheingY">男</label>
+                        <input type="radio" name="ifTeach" id="zy_teacheingN" value="女" class="wx_radio" ng-model="user.data.sex"/>
+                        <label for="zy_teacheingN">女</label>
+					</li>
+					<li>
+						<em>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族：</em>
+						<select name="" ng-model="user.data.user_nation" ng-options="nation.id as nation.name for nation in nationData"  style="width:150px">
+						</select>
+					</li>
+					<li>
+						<em>生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：</em>
+                        <select ng-model="selected" ng-options="s.name for s in list" ng-change="selectedChange()" style="width:112px;margin-right:20px">
+							<option value="">--请选择--</option>
+						</select>
+                       <select ng-model="selected2" ng-options="sh.name for sh in selected.month" style="width:112px;margin-right:20px">
+							<option value="">--请选择--</option>
+						</select>
+                       <select ng-model="selected3" ng-options="x.name for x in selected2.fullDate" style="width:112px">
+							<option value="">--请选择--</option>
+						</select>
+					</li>
+				</ul>
+				<div class="zy_btn_grop">
+					<input class="zy_submit zy_personalMsgSub" type="submit" name="" id="" value="保存" ng-click="xgxsxx()"/>
+				</div>
+        </div>
+	</div>
+</div>
+<!--警告弹框-->
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox tijiaocgtc" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <!--弹框具体宽高自定义-->
+        <p>
+             <img src="img/chenggong.png" alt="" style="height:46px" class="chenggongimg"/>
+             <i></i>
+        </p>
+    </div>
+</div>
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox tijiaosbtc" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <!--弹框具体宽高自定义-->
+        <p>
+             <img src="img/wonde_big.png" alt="" style="height:30px"/>
+             <i></i>
+        </p>
+    </div>
+</div>

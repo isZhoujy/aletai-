@@ -1,0 +1,33 @@
+<!--用户中心首页-->
+<div class="zy_main zy_firstPage">
+	<div class="zy_set zy_personalSet">
+		<span>账号设置</span>
+		<ul class="zy_perList clearfix">
+			<li class="fl" ui-sref="{{menu.href}}" ng-repeat="menu in menu.data.publicMenuList">
+				<img ng-src="img/{{menu.icon|filterMenesrc}}.png"/>
+				<i ng-bind="menu.name"></i>
+			</li>
+			<!--<li class="fl" ui-sref="teacher_index.teacher_personal" ng-click="toGo(1)">
+				<img src="img/account_set.png"/>
+				账号设置
+			</li>-->
+		</ul>
+		<!--<menu-public></menu-public>-->
+	</div>
+	
+	<div class="zy_set zy_classSet" ng-show="menu.data.personMenuList.length">
+		<span>班级设置</span>
+		<ul class="zy_perList clearfix">
+			<li class="fl" ui-sref="{{menu.href}}" ng-repeat="menu in menu.data.personMenuList">
+				<img ng-src="img/{{menu.icon|filterMenesrc}}.png"/>
+				<i ng-bind="menu.name"></i>
+			</li>
+			<!--<li class="fl">
+				<img src="img/parents_admin.png"/>
+				家长管理
+			</li>-->
+		</ul>
+		<!--<menu-person></menu-person>-->
+	</div>
+</div>
+<!--<div ui-view></div>-->

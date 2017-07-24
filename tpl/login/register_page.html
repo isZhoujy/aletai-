@@ -1,0 +1,74 @@
+
+<div class="wx_loginpage">
+    <div class="wx_logintop">
+        <div class="wx_loginwindow">
+            <div class="wx_loginlogo" ui-sref="login_index.sub_index">
+                <img src="img/hebinglogo.png" alt="">
+            </div>
+            
+            <div class="Yrole_selection" ng-if="form_error.rgeister == 0">
+            <!--<div class="Yrole_selection" ng-click="changeHeadTab(0)">-->
+
+            	<span>角色选择</span>
+            	<ul class="clearfix">
+            		<li>
+            			<!--<img src="img/Yteacher.png" ng-click="form_error.rgeister = 1" />-->
+            			<img src="img/Yteacher.png" ng-click="changeHeadTab(1)" />
+            			<em>教师</em>
+            		</li>
+            		<li>
+            			<img src="img/Yparent.png" ui-sref="teacher_index.parent_center" />
+            			<em>家长</em>
+            		</li>
+            		<li>
+            			<img src="img/Ystudent.png" ui-sref="teacher_index.student_personal" />
+            			<em>学生</em>
+            		</li>
+            	</ul>
+            </div>
+            
+            <div class="wx_window" ng-if="form_error.rgeister == 1" >
+            <!--<div class="wx_window" ng-click="changeHeadTab(1)" >-->
+                <div class="wx_login_switch">
+                    <div class="wx_login_switchtop wx_top_border">
+                        <p class="wx_js_color">教师注册</p>
+                    </div>
+                    <div class="switch_middle">
+                        <div>
+                            <form name="form" novalidate="novalidate">
+                                <div class="wx_inp_id">
+                                	<em>真实姓名：</em>
+                                	<input type="text" class="form-control" placeholder="请输入姓名" name="realName" required ng-model="register_teacher.realName">
+                                	
+                                </div>
+                              
+                                <div class="wx_inp_id">
+                                	<em>身份证号：</em>
+                                	<input type="text" class="form-control" placeholder="请输入身份证号" name="idNumber" required ng-model="register_teacher.idNumber" ng-pattern="/^([1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X))$/">
+                                	
+                                </div>
+                                <p ng-show="form_error.noteTeacher"><i class="wx_erro_png"></i><span ng-bind="form_error.teacher"></span></p>
+
+                                <!--<div class="wx_register"><button type="submit" ng-click="registerDataTeacher()">注册</button></div>-->
+                                <div class="wx_register"><button  ng-click="regNext()">下一步</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <p class="zy_toLogin" ui-sref="login_page">已有账号，直接去登录</p>
+                </div>
+	        </div>
+	        
+	        
+	    </div>	
+    
+	    <div class="wx_loginbottom">
+	        <ul>
+	            <li>1、因网站采用最新HTML5技术开发，推荐使用Chome（下载）、 火狐浏览器（下载）或IE11及以上版本的IE览器访问，以达到最佳效果。</li>
+	            <li>2、 教师首次登录 必须先使用身份证号和默认密码123456来激活用户。激活不成功要进行教师注册。用户激活或注册后要通过学校管理员或系统管理员审核才可登录系</li>
+	            <li>3、学生首次登录 必须先使用国网学籍号和默认密码123456登录、完善资料、提交。不成功的需要进行“学生注册”。新注册学生要通过学校管理员审核才可登录系统</li>
+	            <li>4、用户激活后都可以使用多种方式登录。</li>
+	            <li>5、被管理员重置后,用户的密码都会变成默认的激活密码'123456',用户需要重新登录激活。</li>
+	        </ul>
+	    </div>
+    </div>
+</div>

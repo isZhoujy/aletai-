@@ -1,0 +1,183 @@
+
+<div class="zy_main">
+	<div class="zy_cont">
+		<p class="zy_centerTit">
+			<span class="zy_active">学校管理</span>
+			<b class="zy_editTips">（提示：点击方格进行编辑或修改）</b>
+		</p>
+		<div class="zy_switchCon">
+			<div>
+				<!--学校基本信息-->
+				<ul class="zy_basicMsg zy_schoolBasicMsg">
+					<li class="zy_sel">
+						<b class="zy_mustStar">*</b>
+						<span>
+							<em>区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域：</em>
+							<p>
+								<select name="" ng-model="schoolDate.school.areaId" ng-options="area.id as area.name for area in schoolArea">
+									<option value="">请选择区域</option>
+								</select>
+								<!--<i></i>-->
+							</p>
+							<!--<input type="text" name="" id="" ng-model="schoolDate.school.area.name" onclick="readonly = false" style="border: none;" />-->
+							<strong>（如：北京市）</strong>
+						</span>
+					</li>
+					<li class="zy_sel">
+						<b class="zy_mustStar">*</b>
+						<span>
+							<em>学校类型：</em>
+							<p>
+								<!--x.id as x.name for x in list-->
+								<select name="" ng-model="schoolDate.school.grade" ng-options="type.id as type.name for type in schoolType"> 
+									<option value="">请选择学校类型</option>
+								</select>
+								<!--<i></i>-->
+							</p>
+							<!--<input type="text" name="" id="" value="你啥都is阿吉豆比" onclick="readonly = false" style="border: none;" />-->
+							<strong>（如：小学）</strong>
+							<!--<strong>（如：高级中学、初级中学、小学、小学教学点、九年一贯制学校、完全中学、特殊教育学校、机构）</strong>-->
+						</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<span>
+							<em>学校名称：</em>
+							<input type="text" name="" id="" ng-model="schoolDate.school.name" />
+							<strong>（如：北京市海淀区五一小学）</strong>
+						</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<span>
+							<em class="zy_long">学校标识码：</em>
+							<input type="text" name="" id="" ng-model="schoolDate.school.code" />
+							<strong>（如：2111000004）</strong>
+						</span>
+					</li>
+					<li>
+						<b class="zy_mustStar">*</b>
+						<span>
+							<em>学校地址：</em>
+							<input type="text" name="" id="" value="福海县xxx大街8号" ng-model="schoolDate.school.address" />
+							<strong>（如：北京市海淀区永定路127号）</strong>
+						</span>
+					</li>
+					<li>
+						&nbsp;
+						<span>
+							<em style="vertical-align: 2px;">学校logo：</em>
+							<img src="" err-src="img/login_img.png"  ng-src="{{imgPath}}"/>
+							<input type="file" name="" id="" value="" onchange="angular.element(this).scope().uploadLogo(this.files)" />
+							<strong style="display: inline-block; margin-top: 14px;">（支持JPG,PNG格式的图片）</strong>
+						</span>
+					</li>
+					<li>
+						&nbsp;
+						<span>
+							<em>学校网址：</em>
+							<input type="text" name="" id="" value="" ng-model="schoolDate.school.href" />
+							<strong>（如：北京市海淀区永定路127号）</strong>
+						</span>
+					</li>
+					<li class="zy_statistics">
+						<span>
+							<b class="zy_mustStar">*</b>
+							<em >统&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：</em>
+							<i>学生总数：</i>
+							<input type="text" value="345" ng-model="schoolDate.school.studentTotal" ng-pattern="/^[0-9]{1,6}$/" required />人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<i>教师总数：</i>
+							<input type="text" value="345" ng-model="schoolDate.school.teacherTotal" ng-pattern="/^[0-9]{1,4}$/" required />人
+						</span>
+					</li>
+				</ul>
+				
+				<ul class="zy_basicMsg zy_schoolYear">
+					<!--<li>
+						<em>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年：</em>
+						
+						<div class="zy_time" id="startTime">
+							
+							<p class="input-group">
+							    <input type="text" class="form-control" datepicker-popup readonly ng-model="dicQueryObj.startTime" is-open="startPopupOpened" min-date="" max-date="" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天"/>
+							  	<span class="input-group-btn">
+							    　<button type="button" class="btn btn-default" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+							    </span>
+							</p>
+							
+						</div>
+						<div class="zy_time" id="endTime">
+											
+							<p class="input-group">
+							   <input type="text" class="form-control" datepicker-popup readonly ng-model="dicQueryObj.endTime" is-open="endPopupOpened" min-date="dicQueryObj.startTime" max-date="" datepicker-options="dateOptions" ng-required="true" close-text="关闭" clear-text="清除" current-text="今天" />
+							   <span class="input-group-btn">
+							       <button type="button" class="btn btn-default" ng-click="endOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+							   </span>
+							</p>
+							
+						</div>
+						<i>（设置学年起止日期）</i>
+					</li>-->
+					<li>
+						<em style="width: 70px; margin-right: 20px;">年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级：</em>
+						<div>
+							<p class="zy_gradeBox">
+								<span ng-repeat="grade in schoolDate.gradeList" data-id='{{$parent.storage[$index].id}}' ng-mouseover="ifDelete = true" ng-mouseout="ifDelete = false">
+									<input type="text" ng-trim="true" ng-model="$parent.storage[$index].name" />
+									<em ng-show="ifDelete" ng-click="delGrade($event)"></em>
+								</span>
+							</p>
+							<input type="text" ng-show="addBtn" ng-model="addInp" />
+							<i class="zy_addGrade" ng-if="!addBtn" ng-click="addGradePlus()">+</i>
+							<i class="zy_delAddGrade" ng-if="addBtn">
+								<!--<tt ng-click="addGradeRight(schoolDate.eaGradeList)"></tt>-->
+								<tt ng-click="addGradeRight()"></tt>
+								<tt ng-click="addGradeFork()">×</tt>
+							</i>
+						</div>
+					</li>
+				</ul>
+				<b class="zy_editTips" style="margin-left: 80px; position: inherit;">（提示：点击方格进行编辑或修改）</b>
+				
+				<div class="zy_btn_grop">
+					<input class="zy_submit" type="submit" name="" id="" value="保存" ng-click="modify()">
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+<!--警告弹框-->
+<!--gy_del_down为公用clss名不要动，后面起自己控制的class-->
+<div class="gy_del_down zy_warningBox" ng-show="tips.tipsShow">
+    <div class="gy_hide"></div>
+    <div class="gy_con"><!--弹框具体宽高自定义-->
+		<p>
+			<img src="img/chenggong.png" alt="" style="height: 46px;" ng-show="tips.succ"/>
+			<img src="img/wonde_big.png" alt="" ng-show="!tips.succ" />
+			<i ng-bind="tips.tipsWord"></i>
+		</p>
+		
+    </div>
+</div>
+
+<!--确认删除弹窗-->
+<div class="gy_del_down zy_addClassBox" ng-show="delBox">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <!--弹框具体宽高自定义-->
+        <p class="zy_boxTit"> 删除 <i class="zy_close zy_SubjCloseBtn" ng-click="delBox = false"></i> </p>
+        <div class="zy_alertBoxCon zy_addClassDetail">
+            <div class="zy_selectGroup clearfix">
+                <p style="font-size: 18px;font-family: '微软雅黑';">是否删除该年级？</p>
+            </div>
+            <div class="zy_btnGroup">
+                <input type="button" class="zy_sure zy_selectSubSure" value="确认" ng-click="delSure()" />
+                <input type="button" class="zy_cancel zy_selectSubCancel" ng-click="delBox = false" value="取消" /> 
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,33 @@
+		<style>
+			.zy_header{min-width:1200px}
+			.zy_navBg{width: 100%; height: 80px; background: #fff;}
+			.zy_nav{width: 1200px; margin: 0 auto;}
+			.zy_nav h1{width: 215px; height: 54px; background: url(img/alt_login.png) no-repeat; margin-right: 24px; margin-top: 16px; text-indent: -9999px;}
+			.zy_jetsen{margin-top: 20px;}
+			.zy_back{font-size: 1.6rem; line-height: 80px;}
+			.zy_back i{display: inline-block; width: 19px; height: 16px; background: url(img/index_sprite.png)no-repeat -193px 0;}
+			.zy_userCenter{width: 100%; height: 62px; line-height: 62px; text-align: center; color: #fff; font-size: 1.8rem; background: #25a1ee;}
+			
+			.zy_footer{width: 100%; height: 65px; background: #333333;}
+    		.zy_footer p{line-height: 65px; color: #fff; text-align: center; font-size: 1.6rem;}
+    		
+		</style>
+		<div class="zy_header">
+			<div class="zy_navBg">
+				<div class="zy_nav clearfix">
+					<h1 class="fl">
+						阿勒泰教育云空间
+						<!--<img src="img/alt_login.png"/>-->
+					</h1>
+					<img  class="fl zy_jetsen" src="img/login.png"/>
+					<a class="zy_back fr" ui-sref="login_index.sub_index">
+						返回云空间首页
+						<i></i>
+					</a>
+				</div>
+			</div>
+			<div class="zy_userCenter">
+				用户中心
+			</div>
+		</div>
+		<div ui-view></div>

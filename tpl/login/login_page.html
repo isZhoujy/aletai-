@@ -1,0 +1,75 @@
+<div class="wx_loginpage">
+	<div class="wx_logintop">
+		<!-- 登录窗口         -->
+		<div class="wx_loginwindow">
+			<div class="wx_loginlogo" ui-sref="login_index.sub_index">
+				<img src="img/hebinglogo.png" alt="">
+			</div>
+			<div class="wx_window">
+				<div class="wx_login_switch">
+					<div class="wx_login_switchtop">
+						<span ng-click="changeState(0)" ng-class="{'active':state.loginStatus==0}">教师</span><i>|</i>
+						<span ng-click="changeState(1)" ng-class="{'active':state.loginStatus==1}">学生</span><i>|</i>
+						<span ng-click="changeState(2)" ng-class="{'active':state.loginStatus==2}">家长</span>
+					</div>
+					<div class="switch_middle">
+						<div ng-show="state.loginStatus==0">
+							<form name="form" novalidate="novalidate">
+								<div class="wx_inp_id"><span></span><input type="text" name="username" placeholder="手机号" required ng-pattern="/^((13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8})$/" ng-model="data_teach.username" /></div>
+								<!--<div class="wx_inp_id"><span></span><input type="text" name="username" placeholder="身份证号/手机号/邮箱" required ng-pattern="/^([1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X))|(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)|((13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8})$/" ng-model="data_teach.username"/></div>-->
+
+								<div class="wx_inp_id"><span></span><input type="password" name="password" placeholder="密码" ng-model="data_teach.password" /></div>
+
+								<div class="form_error">
+									<p ng-show="form_error.noteTeach"><i class="wx_erro_png"></i><span ng-bind="form_error.teach"></span></p>
+								</div>
+								<div class="wx_wjmm clearfix">
+									<!--<span class="fl" ui-sref="register_page">教师注册</span>-->
+									<span class="fr" ng-click="jumpPage()">忘记密码?</span>
+								</div>
+								<div class="wx_inp_enter"><button type="submit" ng-click="submitDataTeach()">登陆</button></div>
+							</form>
+						</div>
+						<div ng-show="state.loginStatus==1">
+							<form action="" method="get">
+								<div class="wx_inp_id"><span></span><input type="text" name="" placeholder="请输入G或L开头的18位身份证号码" ng-model="data_student.username" /></div>
+								<div class="wx_inp_id"><span></span><input type="password" name="" placeholder="密码" ng-model="data_student.password"></div>
+								<div class="form_error">
+									<p ng-show="form_error.noteStudent"><i class="wx_erro_png"></i><span ng-bind="form_error.student"></span></p>
+								</div>
+								<div class="wx_wjmm clearfix">
+									<!--<span ui-sref="teacher_index.student_personal">学生注册</span>-->
+									<span class="fr" ng-click="jumpPage()">忘记密码?</span>
+								</div>
+								<div class="wx_inp_enter"><button ng-click="submitDataStudent()" type="submit">登陆</button></div>
+							</form>
+						</div>
+						<div ng-show="state.loginStatus==2">
+							<form action="" method="get">
+								<div class="wx_inp_id"><span></span><input type="text" name="" placeholder="请输入手机号" ng-model="data_parents.username" required ng-pattern="/^((13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8})$/" /></div>
+								<div class="wx_inp_id"><span></span><input type="password" name="" placeholder="密码" ng-model="data_parents.password" /></div>
+								<div class="form_error">
+									<p ng-show="form_error.noteParents"><i class="wx_erro_png"></i><span ng-bind="form_error.parents"></span></p>
+								</div>
+								<div class="wx_wjmm clearfix">
+									<!--<span ui-sref="teacher_index.parent_center">家长注册</span>-->
+									<span class="fr" ng-click="jumpPage()">忘记密码?</span>
+								</div>
+								<div class="wx_inp_enter"><button ng-click="submitDataParents()" type="submit">登陆</button></div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="wx_loginbottom">
+			<ul>
+				<li>1、因网站采用最新HTML5技术开发，推荐使用Chome（下载）、 火狐浏览器（下载）或IE11及以上版本的IE览器访问，以达到最佳效果。</li>
+				<li>2、 教师首次登录 必须先使用身份证号和默认密码123456来激活用户。激活不成功要进行教师注册。用户激活或注册后要通过学校管理员或系统管理员审核才可登录系</li>
+				<li>3、学生首次登录 必须先使用国网学籍号和默认密码123456登录、完善资料、提交。不成功的需要进行“学生注册”。新注册学生要通过学校管理员审核才可登录系统</li>
+				<li>4、用户激活后都可以使用多种方式登录。</li>
+				<li>5、被管理员重置后,用户的密码都会变成默认的激活密码'123456',用户需要重新登录激活。</li>
+			</ul>
+		</div>
+	</div>

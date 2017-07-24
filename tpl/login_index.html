@@ -1,0 +1,84 @@
+	<style>
+		.zy_header{margin-bottom: 20px; min-width: 1200px;}
+		.zy_login_right{width: 1200px; margin: 0 auto; height: 32px; font-size: 1.4rem;}
+		.zy_login_right ul{line-height: 32px; }
+		.zy_login_right li{float: left; line-height: 32px; cursor: pointer;}
+		.zy_login_right li:hover{color: #0067b4;}
+		.zy_login_right li i{display: inline-block; width: 14px; height: 14px; background: url(img/index_sprite.png) no-repeat -65px 0; margin: 0 8px 0 16px; vertical-align: -2px;} 
+		.zy_navBg{width: 100%; height: 80px; background: #fff;}
+		.zy_nav{width: 1200px; margin: 0 auto;}
+		.zy_nav h1{width: 215px; height: 54px; background: url(img/alt_login.png) no-repeat; margin-right: 24px; margin-top: 16px; text-indent: -9999px;}
+		.zy_jetsen{margin-top: 20px;}
+		.zy_list{font-size: 1.8rem;}
+		.zy_list li{float: left; line-height: 80px; text-align: center; /*cursor: pointer;*/}
+		.zy_list li:nth-child(odd){width: 94px;}
+		/*.zy_list li:nth-child(odd):hover{color: #0067b4;}*/
+		.zy_list li:nth-child(even){width: 6px; height: 6px; background: #000; border-radius: 50%; overflow: hidden; margin: 38px 20px 0;}
+		.zy_list li.zy_active{height: 76px; border-bottom: 4px solid #336699; color: #0067b4;}
+ 		.zy_footer{width: 100%; height: 60px; padding: 5px 0; background: #333333;min-width:1200px;}
+        .zy_footer p{line-height: 20px; color: #fff; text-align: center; font-size: 1.4rem;}
+	</style>
+	<div class="zy_header">
+		<div class="zy_login_right">
+        <!-- 判断登录状态，显示登陆后的用户名 -->
+			<ul class="fr clearfix" ng-hide="dlzt">
+				<li ui-sref="login_page">登录</li>
+				<!--<li ui-sref="teacher_index.teacher_personal({tableChange:0,teachId:'undefined'})">&nbsp;&nbsp;|&nbsp;&nbsp;注册</li>-->
+				<li ui-sref="register_page">&nbsp;&nbsp;|&nbsp;&nbsp;注册</li>
+				<li><i></i>帮助</li>
+			</ul>
+			<ul class="fr clearfix" ng-show="dlzt">
+				<li><a ui-sref="teacher_index.teacher_center" ng-bind="dlzt_name"></a></li>
+				<li ng-click="login_out()">&nbsp;&nbsp;|&nbsp;&nbsp;退出</li>
+				<li><i></i>帮助</li>
+			</ul>
+		</div>
+		<div class="zy_navBg">
+			<div class="zy_nav clearfix">
+				<h1 class="fl">
+					阿勒泰教育云空间
+					<!--<img src="img/alt_login.png"/>-->
+				</h1>
+				<img class="fl zy_jetsen" src="img/login.png"/>
+				<ul class="zy_list fr clearfix">
+					<li ui-sref="login_index.sub_index" ui-sref-active="zy_active" style="cursor: pointer;">首页</li>
+					<li></li>
+					<li>资源</li>
+					<!--<li ui-sref-active="zy_active" ui-sref="login_index.resource_index">资源</li>-->
+					<li></li>
+					<li>应用</li>
+					<li></li>
+					<li>消息</li>
+					<li></li>
+					<li>帮助</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+
+    <div ui-view></div>
+
+
+    <div class="zy_footer">
+        <!--<p>版权所有：新疆阿勒泰福海县教育云空间   &nbsp;&nbsp;新ICP备10202888号</p>-->
+        <p>新疆阿勒泰教育局与北京捷成世纪科技股份有限公司联合运营</p>
+        <p>版权所有：北京捷成世纪科技股份有限公司</p>
+        <p>公安备案：新疆阿勒泰教育云空间  新ICP备10202888号</p>
+    </div>
+	<!--确认删除弹窗-->
+    <div class="gy_del_down zy_addClassBox" ng-show="deletStatus">
+        <div class="gy_hide"></div>
+        <div class="gy_con">
+            <!--弹框具体宽高自定义-->
+            <p class="zy_boxTit"><i class="zy_close zy_SubjCloseBtn" ng-click="gbtc()"></i> </p>
+            <div class="zy_alertBoxCon zy_addClassDetail">
+                <div class="zy_selectGroup clearfix">
+                    <p style="font-size: 18px;font-family: '微软雅黑';">确认退出？</p>
+                </div>
+                <div class="zy_btnGroup">
+                    <input type="button" class="zy_sure zy_selectSubSure" ng-click="suredel()" value="确认" />
+                    <input type="button" class="zy_cancel zy_selectSubCancel" ng-click="gbtc()" value="取消" /> </div>
+            </div>
+        </div>
+    </div>

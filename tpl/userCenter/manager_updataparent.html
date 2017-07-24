@@ -1,0 +1,81 @@
+<style>
+    input[type="radio"] {
+        margin: 3px 3px 0px 5px;
+        display: none;
+    }
+    
+    label {
+        padding-left: 20px;
+        cursor: pointer;
+        background: url(img/radio_false.png) no-repeat left top;
+    }
+    
+    input:checked + label {
+        background: url(img/radio_true.png) no-repeat;
+    }
+    .wx_nbsp{width:28px;display: inline-block;}
+</style>
+<div class="zy_main">
+    <div class="zy_cont">
+        <p class="zy_centerTit"> <span class="zy_active" style="width:100px!important">修改家长信息</span> </p>
+        <div class="zy_switchCon">
+            <ul class="zy_basicMsg wx_span_style">
+                <li>
+                     <b class="zy_mustStar">*</b><em>家长姓名：</em> 
+                     <span><input type="text" ng-model="realname" required></span>
+                     <i style="display:none;color:#f00;margin-left:-40px" class="nameerro">请填写姓名后再提交</i>
+                 </li>
+
+                <li> 
+                    <b class="zy_mustStar">*</b><em>手<i class="wx_nbsp"></i>机：</em>
+                    <span><input type="text" ng-model="userMobile" required></span> 
+                    <i style="display:none;color:#f00;margin-left:-40px" class="shoujierro">请填手机号后再提交</i>
+                </li>
+
+                <li>
+                    <b class="zy_mustStar">*</b>
+                    <em>学生姓名：</em>
+                    <span ng-repeat="name in stuInfo">
+                        <input type="text" ng-model="$parent.stuInfo[$index].realname">
+                    </span>
+                    
+                </li>
+                <li>
+                    <b class="zy_mustStar">*</b>
+                    <em>国网学籍号：</em>
+                    <span ng-repeat="stuno in stuInfo">
+                        <input type="text" ng-model="$parent.stuInfo[$index].stuNo">
+                    </span>
+                    
+                </li>
+                
+                <li>
+                    <em>与子女关系：</em>
+                    <span ng-repeat="relation in stuInfo">
+                        <select name="" id="" ng-model="$parent.stuInfo[$index].relationId" ng-options="guanxi.id as guanxi.name for guanxi in family" style="width:128px"><option value="">选择子女关系</option></select>
+                    </span>
+                    
+                </li>
+                
+                <li ng-model="user.id"></li>
+            </ul>
+            <div class="zy_btn_grop">
+                <input class="zy_submit zy_personalMsgSub" type="submit" name="" id="" value="保存" ng-click="xgjzxx()" />
+            </div>
+        </div>
+    </div>
+</div>
+<!--警告弹框-->
+<div class="gy_del_down zy_warningBox chenggong" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <p> <img src="img/chenggong.png" alt="" style="height:46px" /> <i>保存成功</i> </p>
+    </div>
+</div>
+
+<div class="gy_del_down zy_warningBox shoujihao" style="display:none">
+    <div class="gy_hide"></div>
+    <div class="gy_con">
+        <p> <img src="img/error_prompt.png" alt="" style="height:20px" /> <span style="font-size:16px;"></span> </p>
+    </div>
+</div>
